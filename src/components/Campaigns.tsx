@@ -22,7 +22,7 @@ const availableCampaigns: Campaign[] = [
         duration: 1,
         requirements: {
           minPilots: 2,
-          minCombatRating: 40,
+          minCombatRating: 30,
           recommendedEquipment: {
             weapons: true,
             missiles: true,
@@ -54,7 +54,7 @@ const availableCampaigns: Campaign[] = [
         duration: 2,
         requirements: {
           minPilots: 3,
-          minCombatRating: 55,
+          minCombatRating: 45,
           recommendedEquipment: {
             weapons: true,
             missiles: true,
@@ -98,7 +98,7 @@ const availableCampaigns: Campaign[] = [
         duration: 2,
         requirements: {
           minPilots: 2,
-          minCombatRating: 50,
+          minCombatRating: 40,
           recommendedEquipment: {
             weapons: true,
             missiles: true,
@@ -131,7 +131,7 @@ const availableCampaigns: Campaign[] = [
         duration: 3,
         requirements: {
           minPilots: 4,
-          minCombatRating: 65,
+          minCombatRating: 55,
           recommendedEquipment: {
             weapons: true,
             missiles: true,
@@ -257,13 +257,26 @@ const Campaigns = () => {
                   <Stack direction="column" gap={2} align="flex-end">
                     <Text>Reward: {mission.reward} credits</Text>
                     <Text>Duration: {mission.duration} days</Text>
-                    <MissionExecution 
-                      mission={mission}
-                      onComplete={() => {
-                        // Mission completed, no additional action needed as the
-                        // completeMission action will update the campaign state
-                      }}
-                    />
+                    <Box>
+                      <MissionExecution 
+                        key={mission.id}
+                        mission={{
+                          ...mission,
+                          status: 'pending' // Ensure mission status is set
+                        }}
+                        onComplete={() => {
+                          // Update the campaign state with the completed mission removed
+                          if (activeCampaign) {
+                            const updatedMissions = activeCampaign.missions.filter(m => m.id !== mission.id);
+                            dispatch(startCampaign({
+                              ...activeCampaign,
+                              missions: updatedMissions,
+                              currentDay: activeCampaign.currentDay + mission.duration
+                            }));
+                          }
+                        }}
+                      />
+                    </Box>
                   </Stack>
                 </Grid>
               </Box>

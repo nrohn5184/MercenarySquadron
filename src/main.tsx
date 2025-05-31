@@ -6,6 +6,11 @@ import { store } from './store';
 import theme from './theme';
 import App from './App';
 
+// Create a portal container for modals
+const portalContainer = document.createElement('div');
+portalContainer.id = 'portal-root';
+document.body.appendChild(portalContainer);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>

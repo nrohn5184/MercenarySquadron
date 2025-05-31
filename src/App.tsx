@@ -1,4 +1,5 @@
-import { Box } from '@chakra-ui/react';
+import React from 'react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Dashboard from './components/Dashboard';
@@ -6,7 +7,7 @@ import PilotManagement from './components/PilotManagement';
 import Hangar from './components/Hangar';
 import Campaigns from './components/Campaigns';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <Box minH="100vh" bg="gray.800" color="white">
@@ -20,8 +21,9 @@ function App() {
           </Routes>
         </Box>
       </Box>
+      <div id="modal-root" />
     </Router>
   );
-}
+};
 
 export default App;
